@@ -1,0 +1,48 @@
+4. El Supermercado “Amigos del Viento” lanzó una promoción en la cual se hacen cargo ellos
+de parte del IVA que se le cobra a los productos. Para implementar esto, se desarrollaron las
+siguientes clases:
+
+import static java.time.LocalDate.now;
+import static java.time.Month.of;
+
+public class CalculadorJubilado implements Calculador {
+
+    private LogTransaction log;
+    private int mesEnPromocion;
+
+    public double calcularPrecio(double precioProducto) {
+        double precioTotal = precioProducto;
+        if (!of(mesEnPromocion).equals(now().getMonth())) {
+            precioTotal += precioProducto * 0.1;
+        }
+        log.log(CalculadorJubilado.class.getName());
+        return precioTotal;
+    }
+}
+
+import static java.time.LocalDate.now;
+import static java.time.Month.of;
+
+public class CalculadorNoJubilado implements Calculador {
+    private LogTransaction log;
+    private int mesEnPromocion;
+
+    public double calcularPrecio(double precioProducto) {
+        double precioTotal = precioProducto;
+        if (of(mesEnPromocion).equals(now().getMonth())) {
+            precioTotal += precioProducto * 0.15;
+        } else {
+            precioTotal += precioProducto * 0.21;
+        }
+        log.log(CalculadorNoJubilado.class.getName());
+        return precioTotal;
+    }
+}
+
+interface Calculador {
+    double calcularPrecio(double precioProducto);
+}
+
+a) Remueva el código duplicado utilizando Template Method. Escriba dos casos de test, uno
+para el cálculo para jubilados y otro no.
+
